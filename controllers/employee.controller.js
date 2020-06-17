@@ -1,81 +1,81 @@
 const db = require("../models");
-const User = db.user;
+const Employee = db.employee;
 const Op = db.Sequelize.Op;
 
-// Create and Save a new User
+// Create and Save a new Employee
 exports.create = (req, res) => {
     // Validate request
     console.log("hey", req.body)
-    // if (!req.body.firstName) {
-    //     res.status(400).send({
-    //         message: "Content can not be empty!"
-    //     });
-    //     return;
-    // }
+    if (!req.body.firstName) {
+        res.status(400).send({
+            message: "Content can not be empty!"
+        });
+        return;
+    }
 
-    // Create a User
-    const user = {
+    // Create an Employee
+    const employee = {
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         happy: req.body.happy ? req.body.happy : false
     };
 
-    // Save User in the database
-    User.create(user)
+    // Save Employee in the database
+    Employee.create(employee)
         .then(data => {
             res.send(data);
         })
         .catch(err => {
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while creating the User."
+                    err.message || "Some error occurred while creating the Employee."
             });
         });
 };
 
-// Retrieve all Users from the database.
+// Retrieve all Employees from the database.
 exports.findAll = (req, res) => {
     const title = req.query.title;
     var condition = title ? { title: { [Op.like]: `%${title}%` } } : null;
 
-    User.findAll({ where: condition })
+    Employee.findAll({ where: condition })
         .then(data => {
             res.send(data);
         })
         .catch(err => {
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while retrieving Users."
+                    err.message || "Some error occurred while retrieving Employees."
             });
         });
 };
 
-// Find a single User with an id
+// Find a single Employee with an id
 exports.findOne = (req, res) => {
     const id = req.params.id;
 
-    User.findByPk(id)
+    Employee.findByPk(id)
         .then(data => {
             res.send(data);
         })
         .catch(err => {
             res.status(500).send({
-                message: "Error retrieving User with id=" + id
+                message: "Error retrieving Employee with id=" + id
             });
         });
 };
 
-// Update a User by the id in the request
+// Update a Employee by the id in the request
 exports.update = (req, res) => {
     const id = req.params.id;
 
-    User.update(req.body, {
+    Employee.update(req.body, {
         where: { id: id }
     })
         .then(num => {
             if (num == 1) {
                 res.send({
-                    message: "User was updated successfully."
+                    message: "Employee was updated successfully."
                 });
             } else {
                 res.send({
@@ -90,17 +90,17 @@ exports.update = (req, res) => {
         });
 };
 
-// Delete a User with the specified id in the request
+// Delete a Employee with the specified id in the request
 exports.delete = (req, res) => {
     const id = req.params.id;
 
-    User.destroy({
+    Employee.destroy({
         where: { id: id }
     })
         .then(num => {
             if (num == 1) {
                 res.send({
-                    message: "User was deleted successfully!"
+                    message: "Employee was deleted successfully!"
                 });
             } else {
                 res.send({
@@ -110,30 +110,26 @@ exports.delete = (req, res) => {
         })
         .catch(err => {
             res.status(500).send({
-                message: "Could not delete User with id=" + id
+                message: "Could not delete Employee with id=" + id
             });
         });
 };
 
-// Delete all Users from the database.
+// Delete all Employees from the database.
 exports.deleteAll = (req, res) => {
-    User.destroy({
+    Employee.destroy({
         where: {},
         truncate: false
     })
         .then(nums => {
-            res.send({ message: `${nums} Users were deleted successfully!` });
+            res.send({ message: `${nums} Employees were deleted successfully!` });
         })
         .catch(err => {
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while removing all users."
+                    err.message || "Some error occurred while removing all Employees."
             });
         });
 };
 
-// Find all published Users
-exports.findAllPublished = (req, res) => {
-
-};
 
