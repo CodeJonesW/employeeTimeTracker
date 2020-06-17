@@ -4,6 +4,7 @@ const cors = require("cors");
 const db = require("./models/index")
 const app = express();
 
+// remove the force true if you want to keep data in DB. force true causes a full DB drop
 db.sequelize.sync({ force: true }).then(() => {
     console.log("Drop and re-sync db.");
 });
@@ -20,7 +21,7 @@ app.use(bodyParser.json());
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// simple route
+// simple intro route
 app.get("/", (req, res) => {
     res.json({ message: "Welcome to Express Sequelize Node application for storing Users." });
 });
