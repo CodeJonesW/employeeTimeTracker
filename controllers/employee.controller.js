@@ -36,17 +36,21 @@ exports.create = (req, res) => {
 // Retrieve all Employees from the database.
 exports.findAll = (req, res) => {
     console.log(req.query)
-    const firstName = req.query.firstName;
+    const { page, size, firstName } = req.query;
+
     var condition = firstName ? { firstName: { [Op.like]: `%${firstName}%` } } : null;
 
-    Employee.findAll({ where: condition })
+    const { limit, offset } = getPagination(page, size);
+
+    Employee.findAndCountAll({ where: condition, limit, offset })
         .then(data => {
-            res.send(data);
+            const response = getPagingData(data, page, limit);
+            res.send(response);
         })
         .catch(err => {
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while retrieving Employees."
+                    err.message || "Some error occurred while retrieving tutorials."
             });
         });
 };
