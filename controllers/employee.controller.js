@@ -5,7 +5,7 @@ const Op = db.Sequelize.Op;
 // Create and Save a new Employee
 exports.create = (req, res) => {
     // Validate request
-    console.log("hey", req.body)
+    console.log("created", req.body)
     if (!req.body.firstName) {
         res.status(400).send({
             message: "Content can not be empty!"
@@ -35,8 +35,9 @@ exports.create = (req, res) => {
 
 // Retrieve all Employees from the database.
 exports.findAll = (req, res) => {
-    const title = req.query.title;
-    var condition = title ? { title: { [Op.like]: `%${title}%` } } : null;
+    console.log(req.query)
+    const firstName = req.query.firstName;
+    var condition = firstName ? { firstName: { [Op.like]: `%${firstName}%` } } : null;
 
     Employee.findAll({ where: condition })
         .then(data => {
@@ -132,4 +133,22 @@ exports.deleteAll = (req, res) => {
         });
 };
 
+
+
+// Pagination
+
+const getPagination = (page, size) => {
+    const limit = size ? +size : 3;
+    const offset = page ? page * limit : 0;
+
+    return { limit, offset };
+};
+
+const getPagingData = (data, page, limit) => {
+    const { count: totalItems, rows: tutorials } = data;
+    const currentPage = page ? +page : 0;
+    const totalPages = Math.ceil(totalItems / limit);
+
+    return { totalItems, tutorials, totalPages, currentPage };
+};
 

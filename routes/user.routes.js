@@ -7,7 +7,8 @@ module.exports = app => {
     router.post("/", EmployeesController.create);
 
     // Retrieve all Employees
-    router.get("/", EmployeesController.findAll);
+    // question mark allows for query key values to be entered like "page=1" seperate multiples by &
+    router.get("/?", EmployeesController.findAll);
 
     // Retrieve a single Employee with id
     router.get("/:id", EmployeesController.findOne);
