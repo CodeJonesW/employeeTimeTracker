@@ -35,3 +35,9 @@ app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}.`);
 });
 
+
+// todo
+// create new model
+// add to sequelize db 
+// create controller
+// create routes
