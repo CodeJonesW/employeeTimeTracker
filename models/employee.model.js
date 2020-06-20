@@ -6,9 +6,13 @@ module.exports = (sequelize, Sequelize) => {
         lastName: {
             type: Sequelize.STRING
         },
-        happy: {
-            type: Sequelize.BOOLEAN
+        age: {
+            type: Sequelize.INTEGER
+        },
+        timelyNess: {
+            type: Sequelize.INTEGER
         }
+
     });
 
     return Employee;

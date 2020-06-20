@@ -17,7 +17,7 @@ exports.create = (req, res) => {
     const employee = {
         firstName: req.body.firstName,
         lastName: req.body.lastName,
-        happy: req.body.happy ? req.body.happy : false
+        timelyNess: req.body.timelyNess ? req.body.timelyNess : 10
     };
 
     // Save Employee in the database
